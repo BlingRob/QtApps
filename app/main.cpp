@@ -8,5 +8,8 @@ int main(int argc, char *argv[])
     QWidget w;
     w.show();
 
+    connect(&w, QWidget::
+            &app, QApplication::exit);
+    
     return app.exec();
 }
