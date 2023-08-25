@@ -1,5 +1,9 @@
 # Build
-mkdir build && cd build
-conan install ..
+
+mkdir build
+
+conan install .. --build=missing -of build
+
 cd build
+
 cmake --build .
