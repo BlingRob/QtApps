@@ -1,4 +1,4 @@
-set(TARGET AnalogClock)
+set(TARGET TestWork2)
 
 set(SOURCES
     main.cpp

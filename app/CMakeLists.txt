@@ -1,2 +1,4 @@
 
 add_subdirectory(analog_clock)
+add_subdirectory(test_work_2)
+

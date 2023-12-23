@@ -2,8 +2,8 @@
 #include <QWidget>
 #include <QTimer>
 #include <QPainter>
-#include <QTime>
 #include <QObject>
+#include <QTime>
 
 class AnalogClock : public QWidget
 {
@@ -39,10 +39,17 @@ void AnalogClock::paintEvent(QPaintEvent *)
         QPoint(-7, 8),
         QPoint(0, -70)
     };
+    static const QPoint secondHand[3] = {
+        QPoint(7, 8),
+        QPoint(-7, 8),
+        QPoint(0, -90)
+    };
 
     QColor hourColor(127, 0, 127);
     QColor minuteColor(0, 127, 127, 191);
-    QTime time;
+    QColor secondColor(255, 255, 0, 191);
+
+    QTime time = QTime::currentTime();
 
     int side = qMin(width(), height());
 
@@ -51,6 +58,7 @@ void AnalogClock::paintEvent(QPaintEvent *)
     painter.translate(width() / 2, height() / 2);
     painter.scale(side / 200.0, side / 200.0);
 
+    /// Draw hour 
     painter.setPen(Qt::NoPen);
     painter.setBrush(hourColor);
     painter.save();
@@ -59,11 +67,13 @@ void AnalogClock::paintEvent(QPaintEvent *)
     painter.restore();
     painter.setPen(hourColor);
 
-    for (int i = 0; i < 12; ++i) {
+    for (int i = 0; i < 12; ++i) 
+    {
         painter.drawLine(88, 0, 96, 0);
         painter.rotate(30.0);
     }
-    
+
+    // Draw minute
     painter.setPen(Qt::NoPen);
     painter.setBrush(minuteColor);
 
@@ -74,11 +84,21 @@ void AnalogClock::paintEvent(QPaintEvent *)
 
     painter.setPen(minuteColor);
 
-    for (int j = 0; j < 60; ++j) {
+    for (int j = 0; j < 60; ++j) 
+    {
         if ((j % 5) != 0)
             painter.drawLine(92, 0, 96, 0);
         painter.rotate(6.0);
     }
+
+    // Draw seconds
+    painter.setPen(Qt::NoPen);
+    painter.setBrush(secondColor);
+
+    painter.save();
+    painter.rotate(6 * time.second() + 1);
+    painter.drawConvexPolygon(secondHand, 3);
+    painter.restore();
 }
 
 #include "main.moc"
